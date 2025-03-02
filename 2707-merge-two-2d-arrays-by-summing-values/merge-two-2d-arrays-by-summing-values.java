@@ -1,33 +1,31 @@
-import java.util.*;
-
 class Solution {
     public int[][] mergeArrays(int[][] nums1, int[][] nums2) {
-        // Use HashMap for O(1) insertions and lookups
-        HashMap<Integer, Integer> map = new HashMap<>();
+        int m = nums1.length, n = nums2.length;
+        int i = 0, j = 0;
+        List<int[]> result = new ArrayList<>();
 
-        // Merge nums1 into the map
-        for (int[] num : nums1) {
-            map.put(num[0], num[1]);
+        while(i < m && j < n){
+            if(nums1[i][0] == nums2[j][0]){
+                result.add(new int[]{nums1[i][0], nums1[i][1] + nums2[j][1]});
+                i++; j++;
+            }
+            else if(nums1[i][0] < nums2[j][0]){
+                result.add(nums1[i]);
+                i++;
+            }
+            else{
+                result.add(nums2[j]);
+                j++;
+            }
         }
-
-        // Merge nums2 into the map
-        for (int[] num : nums2) {
-            // If the key already exists, add the value from nums2 to the existing value
-            map.put(num[0], map.getOrDefault(num[0], 0) + num[1]);
+        while(i < m){
+            result.add(nums1[i]);
+            i++;
         }
-
-        // Convert the map to a 2D array
-        int[][] result = new int[map.size()][2];
-        int index = 0;
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            result[index][0] = entry.getKey();
-            result[index][1] = entry.getValue();
-            index++;
+        while(j < n){
+            result.add(nums2[j]);
+            j++;
         }
-
-        // Sort the result by the first element (ID)
-        Arrays.sort(result, (a, b) -> a[0] - b[0]);
-
-        return result;
+        return result.toArray(new int[result.size()][]);
     }
 }
