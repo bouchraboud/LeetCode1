@@ -26,13 +26,10 @@ class Solution {
     public void BTPaths(TreeNode root, String s, List<String> list) {
         if (root == null) {
             return;
-
         } else if (root.right == null && root.left == null) {
-            System.out.println("iwa");
-            System.out.println( root.val);
             s += root.val;
             list.add(s);
-            System.out.println( s);
+            return;
         } else {
             s += root.val + "->";
             BTPaths(root.right, s, list);
