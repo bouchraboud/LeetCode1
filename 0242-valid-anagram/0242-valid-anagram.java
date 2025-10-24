@@ -1,37 +1,29 @@
 class Solution {
     public boolean isAnagram(String s, String t) {
-        Map<Character, Integer> map = new HashMap<Character, Integer>();
-
-        if (s.length() != t.length())
-            return false;
-
-        for (int i = 0; i < s.length(); i++) {
-
-            if (map.containsKey(s.charAt(i))) {
-                map.put(s.charAt(i), map.get(s.charAt(i)) + 1);
-            } else {
-                map.put(s.charAt(i), 1);
-            }
-
+        if(s.length() != t.length()) return false;
+        
+        Map<Character, Integer> map = new HashMap<>();
+        
+       
+        for(int i = 0; i < s.length(); i++){
+            char c = s.charAt(i);
+            map.put(c, map.getOrDefault(c, 0) + 1);
         }
-
-        for (int i = 0; i < t.length(); i++) {
-
-            if (!map.containsKey(t.charAt(i))) {
-                return false;
-            } else {
-                
-
-                 map.put(t.charAt(i), map.get(t.charAt(i)) - 1);
-                if (map.get(t.charAt(i)) == 0)
-                    map.remove(t.charAt(i));
-
-            }
-
+        
+        
+        for(int i = 0; i < t.length(); i++){
+            char c = t.charAt(i);
+            if(!map.containsKey(c)) return false;
+            
+            map.put(c, map.get(c) - 1);
+            if(map.get(c) < 0) return false;
         }
-        if (map.size() == 0)
-            return true;
-        return false;
-
+        
+        
+        for(int count : map.values()){
+            if(count != 0) return false;
+        }
+        
+        return true;
     }
 }
