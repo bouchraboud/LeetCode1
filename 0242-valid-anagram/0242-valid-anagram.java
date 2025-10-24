@@ -6,19 +6,9 @@ class Solution {
         
        
         for(int i = 0; i < s.length(); i++){
-            char c = s.charAt(i);
-            map.put(c, map.getOrDefault(c, 0) + 1);
+            map.put(s.charAt(i), map.getOrDefault(s.charAt(i), 0) + 1);
+            map.put(t.charAt(i), map.getOrDefault(t.charAt(i), 0) - 1);
         }
-        
-        
-        for(int i = 0; i < t.length(); i++){
-            char c = t.charAt(i);
-            if(!map.containsKey(c)) return false;
-            
-            map.put(c, map.get(c) - 1);
-            if(map.get(c) < 0) return false;
-        }
-        
         
         for(int count : map.values()){
             if(count != 0) return false;
