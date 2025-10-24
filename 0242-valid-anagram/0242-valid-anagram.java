@@ -9,9 +9,6 @@ class Solution {
 
             if (map.containsKey(s.charAt(i))) {
                 map.put(s.charAt(i), map.get(s.charAt(i)) + 1);
-                if (map.get(s.charAt(i)) == 0)
-                    map.remove(s.charAt(i));
-
             } else {
                 map.put(s.charAt(i), 1);
             }
@@ -20,14 +17,14 @@ class Solution {
 
         for (int i = 0; i < t.length(); i++) {
 
-            if (map.containsKey(t.charAt(i))) {
-                map.put(t.charAt(i), map.get(t.charAt(i)) - 1);
+            if (!map.containsKey(t.charAt(i))) {
+                return false;
+            } else {
+                
+
+                 map.put(t.charAt(i), map.get(t.charAt(i)) - 1);
                 if (map.get(t.charAt(i)) == 0)
                     map.remove(t.charAt(i));
-
-            } else {
-                map.put(s.charAt(i), -1);
-                return false;
 
             }
 
