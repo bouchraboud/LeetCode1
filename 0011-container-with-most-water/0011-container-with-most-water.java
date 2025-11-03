@@ -3,18 +3,17 @@ class Solution {
         
         int n=heights.length;
         int max=0;
-        int j=n-1;
-        for(int i=0;i<n;i++){
-            while(i<j&&heights[i]>heights[j]){
-             int sum = (j - i) * Math.min(heights[j],heights[i]);
-             if(sum>max){max=sum;}
-             j--;  
+        int r=n-1;
+        int l=0;
+
+        while(l<r){
+            int sum = (r - l) * Math.min(heights[r],heights[l]);
+            if(sum>max){max=sum;}
+            if(heights[l]>=heights[r]){
+                     r--;
+            }else{
+                     l++;
             }
-
-             int sum = (j - i) * Math.min(heights[j],heights[i]);
-             if(sum>max){ max=sum;}  
-              
-
         }
         return max;
     }
