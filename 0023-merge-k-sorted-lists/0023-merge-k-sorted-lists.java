@@ -20,7 +20,9 @@ class Solution {
          ListNode current=dummy;
          
          for(int i=0;i<lists.length;i++){
-            minHeap.offer(lists[i]);
+            if (lists[i] != null) {
+                minHeap.offer(lists[i]);
+            }
 
          }
 
