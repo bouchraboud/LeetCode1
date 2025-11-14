@@ -1,39 +1,17 @@
-class Solution {
+public class Solution {
     public int characterReplacement(String s, int k) {
-        
-        int[] arr=new int[26];
-
-        int i=0;
-        int result=0;//longet length
-        while((i+result)<s.length()){
-            arr[s.charAt(i + result) - 'A']++;
-            int max=arr[0];
-            int sum=0;
-            for(int j=0;j<26;j++){
-                   sum+=arr[j];
-                  if(max<arr[j]){
-                    max=arr[j];
-                  }
+        int res = 0;
+        for (int i = 0; i < s.length(); i++) {
+            HashMap<Character, Integer> count = new HashMap<>();
+            int maxf = 0;
+            for (int j = i; j < s.length(); j++) {
+                count.put(s.charAt(j), count.getOrDefault(s.charAt(j), 0) + 1);
+                maxf = Math.max(maxf, count.get(s.charAt(j)));
+                if ((j - i + 1) - maxf <= k) {
+                    res = Math.max(res, j - i + 1);
+                }
             }
-           
-            sum-=max;
-           
-
-            if(sum<=k){
-                
-                  result+=1;
-            }else{
-                
-                arr[s.charAt(i)-'A']--;
-                i++;
-            }
-            
         }
-
-        return result;
-
-
-
-
+        return res;
     }
 }
