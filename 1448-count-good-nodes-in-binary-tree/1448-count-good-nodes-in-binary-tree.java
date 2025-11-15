@@ -1,40 +1,31 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
-
 class Solution {
     public int goodNodes(TreeNode root) {
-        Stack<Pair<TreeNode, Integer>> stack = new Stack<>();
+        if (root == null) return 0;
 
+        Stack<Pair<TreeNode, Integer>> stack = new Stack<>();
         stack.push(new Pair<>(root, root.val));
-        int res = 1;
+        int res = 0;
 
         while (!stack.isEmpty()) {
             Pair<TreeNode, Integer> current = stack.pop();
             TreeNode node = current.getKey();
-            int max = current.getValue();
+            int maxSoFar = current.getValue();
 
-            if (node != null) {
-                if(node.left!=null&&node.left.val>=max){ stack.push(new Pair<>(node.left,node.left.val));res++;}
-                else stack.push(new Pair<>(node.left,max));
+            if (node.val >= maxSoFar) {
+                res++;
+            }
 
-                if(node.right!=null&&node.right.val>=max) {stack.push(new Pair<>(node.right,node.right.val)); res++;}
-                else stack.push(new Pair<>(node.right,max));
+            int newMax = Math.max(maxSoFar, node.val);
+
+            // Push non-null children only
+            if (node.left != null) {
+                stack.push(new Pair<>(node.left, newMax));
+            }
+            if (node.right != null) {
+                stack.push(new Pair<>(node.right, newMax));
             }
         }
+
         return res;
     }
 }
-
