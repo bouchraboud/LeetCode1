@@ -15,30 +15,18 @@
  */
 
 class Solution {
+    List<Integer> result = new ArrayList<>();
     public int kthSmallest(TreeNode root, int k) {
+        helper(root,k);
+        return result.get(k-1);
        
-       List<Integer> result = new ArrayList<>();
-       Stack<TreeNode> stack = new Stack<>();
-       TreeNode curr = root;
-    
-      while (curr != null || !stack.isEmpty()) {
-        
-        // Phase 1: Go left as deep as possible
-         while (curr != null) {
-            stack.push(curr);
-            curr = curr.left;
-         }
-        
-        // Phase 2: Visit the node (we've gone as far left as possible)
-        curr = stack.pop();
-        result.add(curr.val);
-        if(result.size()==k) return result.get(k-1);
-        
-        // Phase 3: Go right
-         curr = curr.right;
-      }
-    
-         return result.get(k-1);
+   }
+   private void helper(TreeNode root, int k) {
+           if(root==null) return ;
+           helper(root.left,k);
+           result.add(root.val);
+           helper(root.right,k);
+       
    }
 }
 
