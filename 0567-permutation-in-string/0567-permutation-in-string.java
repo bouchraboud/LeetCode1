@@ -1,35 +1,39 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
-        
-        if(s2.length()<s1.length()) return false;
-        Map<Character,Integer> map1=new HashMap<>();
-        Map<Character,Integer> map2=new HashMap<>();
-
-        for(int i=0;i<s1.length();i++){
-            map1.put(s1.charAt(i),map1.getOrDefault(s1.charAt(i),0)+1);
-            map2.put(s2.charAt(i),map2.getOrDefault(s2.charAt(i),0)+1);
+        if (s1.length() > s2.length()) {
+            return false;
         }
-         if(map1.equals(map2)) return true;
-        int left=0;
-        for(int right=s1.length();right<s2.length();right++){
-
-                 map2.put(s2.charAt(right),map2.getOrDefault(s2.charAt(right),0)+1);
-
-                 map2.put(s2.charAt(left),map2.get(s2.charAt(left))-1);
-
-                 if(map2.get(s2.charAt(left))==0) map2.remove(s2.charAt(left));
-
-                 left++;
-
-                 if(map1.equals(map2)) return true;
-        }
-
-        return false;
-
-
-
-
         
-          
+        HashMap<Character, Integer> s1Count = new HashMap<>();
+        HashMap<Character, Integer> s2Count = new HashMap<>();
+        
+        for (int i = 0; i < s1.length(); i++) {
+            s1Count.put(s1.charAt(i), s1Count.getOrDefault(s1.charAt(i), 0) + 1);
+            s2Count.put(s2.charAt(i), s2Count.getOrDefault(s2.charAt(i), 0) + 1);
+        }
+        
+        if (s1Count.equals(s2Count)) {
+            return true;
+        }
+        
+        int left = 0;
+        for (int right = s1.length(); right < s2.length(); right++) {
+            char charRight = s2.charAt(right);
+            s2Count.put(charRight, s2Count.getOrDefault(charRight, 0) + 1);
+            
+            char charLeft = s2.charAt(left);
+            s2Count.put(charLeft, s2Count.get(charLeft) - 1);
+            if (s2Count.get(charLeft) == 0) {
+                s2Count.remove(charLeft);
+            }
+            
+            left++;
+            
+            if (s1Count.equals(s2Count)) {
+                return true;
+            }
+        }
+        
+        return false;        
     }
 }
