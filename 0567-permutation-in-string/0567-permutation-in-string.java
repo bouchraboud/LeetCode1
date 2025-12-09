@@ -1,39 +1,47 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
-        if (s1.length() > s2.length()) {
-            return false;
+        int len1 = s1.length(), len2 = s2.length();
+        if (len1 > len2) return false;
+
+        int[] s1Count = new int[26]; // counts for s1
+        int[] windowCount = new int[26]; // counts for current window in s2
+
+        // initialize counts for s1 and first window in s2
+        for (int i = 0; i < len1; i++) {
+            s1Count[s1.charAt(i) - 'a']++;
+            windowCount[s2.charAt(i) - 'a']++;
         }
-        
-        HashMap<Character, Integer> s1Count = new HashMap<>();
-        HashMap<Character, Integer> s2Count = new HashMap<>();
-        
-        for (int i = 0; i < s1.length(); i++) {
-            s1Count.put(s1.charAt(i), s1Count.getOrDefault(s1.charAt(i), 0) + 1);
-            s2Count.put(s2.charAt(i), s2Count.getOrDefault(s2.charAt(i), 0) + 1);
+
+        // count how many letters match exactly
+        int matches = 0;
+        for (int i = 0; i < 26; i++) {
+            if (s1Count[i] == windowCount[i]) matches++;
         }
-        
-        if (s1Count.equals(s2Count)) {
-            return true;
-        }
-        
-        int left = 0;
-        for (int right = s1.length(); right < s2.length(); right++) {
-            char charRight = s2.charAt(right);
-            s2Count.put(charRight, s2Count.getOrDefault(charRight, 0) + 1);
-            
-            char charLeft = s2.charAt(left);
-            s2Count.put(charLeft, s2Count.get(charLeft) - 1);
-            if (s2Count.get(charLeft) == 0) {
-                s2Count.remove(charLeft);
+
+        // slide the window
+        for (int i = len1; i < len2; i++) {
+            if (matches == 26) return true; // all letters match
+
+            int indexIn = s2.charAt(i) - 'a';           // char entering the window
+            int indexOut = s2.charAt(i - len1) - 'a';  // char leaving the window
+
+            // add the new char
+            windowCount[indexIn]++;
+            if (windowCount[indexIn] == s1Count[indexIn]) {
+                matches++;
+            } else if (windowCount[indexIn] == s1Count[indexIn] + 1) {
+                matches--;
             }
-            
-            left++;
-            
-            if (s1Count.equals(s2Count)) {
-                return true;
+
+            // remove the old char
+            windowCount[indexOut]--;
+            if (windowCount[indexOut] == s1Count[indexOut]) {
+                matches++;
+            } else if (windowCount[indexOut] == s1Count[indexOut] - 1) {
+                matches--;
             }
         }
-        
-        return false;        
+
+        return matches == 26;
     }
 }
