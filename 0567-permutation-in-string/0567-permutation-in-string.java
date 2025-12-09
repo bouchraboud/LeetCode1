@@ -1,19 +1,34 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
-        char[] s11 = s1.toCharArray();
-        Arrays.sort(s11);
-        String s1sorted=new String(s11);
-            
-              for(int i=0;i<s2.length();i++){
-                      if(i+s1.length()-1<s2.length()&&s1.contains(String.valueOf(s2.charAt(i)))) {
-                            String curr=s2.substring(i,i+s1.length());
-                            char[] chars = curr.toCharArray();
-                            Arrays.sort(chars);
-                            String currSorted=new String(chars);
-                            if(currSorted.equals(s1sorted)) return true;       
-                      }
-            }
-            return false;
+        
+        if(s2.length()<s1.length()) return false;
+        Map<Character,Integer> map1=new HashMap<>();
+        Map<Character,Integer> map2=new HashMap<>();
+
+        for(int i=0;i<s1.length();i++){
+            map1.put(s1.charAt(i),map1.getOrDefault(s1.charAt(i),0)+1);
+            map2.put(s2.charAt(i),map2.getOrDefault(s2.charAt(i),0)+1);
+        }
+         if(map1.equals(map2)) return true;
+        int left=0;
+        for(int right=s1.length();right<s2.length();right++){
+
+                 map2.put(s2.charAt(right),map2.getOrDefault(s2.charAt(right),0)+1);
+
+                 map2.put(s2.charAt(left),map2.get(s2.charAt(left))-1);
+
+                 if(map2.get(s2.charAt(left))==0) map2.remove(s2.charAt(left));
+
+                 left++;
+
+                 if(map1.equals(map2)) return true;
+        }
+
+        return false;
+
+
+
+
         
           
     }
