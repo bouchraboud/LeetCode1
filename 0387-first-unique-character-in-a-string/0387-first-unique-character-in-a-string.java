@@ -1,17 +1,22 @@
 class Solution {
     public int firstUniqChar(String s) {
-        Map<Character, Integer> count = new LinkedHashMap<>();
-        
-        // Count frequency
-        for (char c : s.toCharArray()) {
-            count.put(c, count.getOrDefault(c, 0) + 1);
-        }
-        
-        // Return first unique character
+        int[] frequency = new int[26];
+        int[] firstIndex = new int[26];
+        Arrays.fill(firstIndex, -1);
+
         for (int i = 0; i < s.length(); i++) {
-            if (count.get(s.charAt(i)) == 1) return i;
+            int idx = s.charAt(i) - 'a';
+            frequency[idx]++;
+            if (firstIndex[idx] == -1) firstIndex[idx] = i;  // première apparition
         }
-        
-        return -1;
+
+        int first = Integer.MAX_VALUE;
+        for (int i = 0; i < 26; i++) {
+            if (frequency[i] == 1 && firstIndex[i] < first) {
+                first = firstIndex[i];
+            }
+        }
+
+        return first == Integer.MAX_VALUE ? -1 : first;
     }
 }
