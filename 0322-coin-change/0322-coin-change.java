@@ -3,7 +3,7 @@ class Solution {
 
     public int coinChange(int[] coins, int amount) {
         if (amount == 0) return 0;
-
+        Arrays.sort(coins);
         memo = new int[amount + 1];
         for (int i = 0; i <= amount; i++) {
             memo[i] = -2; // uncomputed
@@ -18,7 +18,8 @@ class Solution {
 
         int min = Integer.MAX_VALUE;
 
-        for (int coin : coins) {
+        for (int i=coins.length-1;i>=0 ;i--) {
+            int coin=coins[i];
             // ✅ overflow-safe check
             if (coin > amount - sum) continue;
 
